@@ -2,8 +2,8 @@
 //  Board.swift
 //  Bomb Finder
 //
-//  Created by Eric Jenson on 12/24/18.
-//  Copyright © 2018 Eric Jenson. All rights reserved.
+//  Created by Eric J on 12/24/18.
+//  Copyright © 2018 Eric J. All rights reserved.
 //
 
 struct Board {
@@ -12,11 +12,6 @@ struct Board {
     let numberOfBombs: Int
     
     let tiles: [Tile]
-    
-    enum AdjacentType {
-        case all
-        case topBottomLeftRight
-    }
     
     static func create(size: Int, numberOfBombs: Int) -> Board {
         let remainingTiles = (size * size) - numberOfBombs
@@ -29,7 +24,7 @@ struct Board {
             case .bomb:
                 return tile
             case .number:
-                let adjacentIndexes = findAdjacentIndexes(index: index, width: size, height: size, type: .all, tiles: shuffledTiles)
+                let adjacentIndexes = findAdjacentIndexes(index: index, width: size, height: size, tiles: shuffledTiles)
                     .filter { index in
                         switch shuffledTiles[index].value {
                         case .bomb:
@@ -45,20 +40,20 @@ struct Board {
         return Board(width: size, height: size, numberOfBombs: numberOfBombs, tiles: tiles)
     }
     
-    static func findAdjacentIndexes(index: Int, width: Int, height: Int, type: AdjacentType, tiles: [Tile]) -> [Int] {
+    static func findAdjacentIndexes(index: Int, width: Int, height: Int, tiles: [Tile]) -> [Int] {
         let row = index / width
         let column = index % width
         var adjacentIndexes = [Int]()
         if row >= 1 {
             let rowAbove = row - 1
-            if type == .all && column >= 1 {
+            if column >= 1 {
                 let columnLeft = column - 1
                 let index = rowAbove * width + columnLeft
                 adjacentIndexes.append(index)
             }
             let indexTop = rowAbove * width + column
             adjacentIndexes.append(indexTop)
-            if type == .all && column <= width - 2 {
+            if column <= width - 2 {
                 let columnRight = column + 1
                 let index = rowAbove * width + columnRight
                 adjacentIndexes.append(index)
@@ -70,10 +65,8 @@ struct Board {
             let index = row * width + columnLeft
             adjacentIndexes.append(index)
         }
-        if type == .all {
-            let index = row * width + column
-            adjacentIndexes.append(index)
-        }
+        let index = row * width + column
+        adjacentIndexes.append(index)
         if column <= width - 2 {
             let columnRight = column + 1
             let index = row * width + columnRight
@@ -82,14 +75,14 @@ struct Board {
         
         if row <= (height - 2) {
             let rowBelow = row + 1
-            if type == .all && column >= 1 {
+            if column >= 1 {
                 let columnLeft = column - 1
                 let index = rowBelow * width + columnLeft
                 adjacentIndexes.append(index)
             }
             let indexBelow = rowBelow * width + column
             adjacentIndexes.append(indexBelow)
-            if type == .all && column <= (width - 2) {
+            if column <= (width - 2) {
                 let columnRight = column + 1
                 let index = rowBelow * width + columnRight
                 adjacentIndexes.append(index)

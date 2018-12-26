@@ -145,8 +145,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2K-kk-Kkl">
+                                <rect key="frame" x="152" y="16" width="71.5" height="31.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="q5d-ld-Clw">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="63.5" width="375" height="539.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="3RQ-xP-Hm4">
                                     <size key="itemSize" width="40" height="40"/>
@@ -207,13 +213,23 @@
                                     <outlet property="delegate" destination="MKU-Po-SrF" id="Py1-NO-8sk"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jy6-Po-8x7">
+                                <rect key="frame" x="16" y="23" width="38" height="18"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="B2K-kk-Kkl" firstAttribute="centerX" secondItem="yZf-ak-ws3" secondAttribute="centerX" id="9qD-1C-0wt"/>
+                            <constraint firstItem="jy6-Po-8x7" firstAttribute="leading" secondItem="2Ep-l9-jEL" secondAttribute="leading" constant="16" id="HsT-re-2M9"/>
                             <constraint firstItem="2Ep-l9-jEL" firstAttribute="bottom" secondItem="q5d-ld-Clw" secondAttribute="bottomMargin" constant="8" id="WYW-28-OEr"/>
+                            <constraint firstItem="q5d-ld-Clw" firstAttribute="top" secondItem="B2K-kk-Kkl" secondAttribute="bottom" constant="16" id="bdS-nd-fL1"/>
+                            <constraint firstItem="jy6-Po-8x7" firstAttribute="centerY" secondItem="B2K-kk-Kkl" secondAttribute="centerY" id="bq9-c7-GTd"/>
+                            <constraint firstItem="B2K-kk-Kkl" firstAttribute="top" secondItem="2Ep-l9-jEL" secondAttribute="top" constant="16" id="dDt-i6-gZw"/>
                             <constraint firstItem="q5d-ld-Clw" firstAttribute="leading" secondItem="2Ep-l9-jEL" secondAttribute="leading" id="fxy-2x-bF0"/>
-                            <constraint firstItem="q5d-ld-Clw" firstAttribute="top" secondItem="2Ep-l9-jEL" secondAttribute="top" id="pmv-M0-HLY"/>
                             <constraint firstItem="2Ep-l9-jEL" firstAttribute="trailing" secondItem="q5d-ld-Clw" secondAttribute="trailingMargin" constant="8" id="vgw-w8-KAs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2Ep-l9-jEL"/>
@@ -221,6 +237,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="q5d-ld-Clw" id="Ia3-nf-nLc"/>
+                        <outlet property="timeLabel" destination="B2K-kk-Kkl" id="Sr7-df-2QQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cFk-hA-khr" userLabel="First Responder" sceneMemberID="firstResponder"/>

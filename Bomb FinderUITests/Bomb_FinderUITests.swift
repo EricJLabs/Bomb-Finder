@@ -2,8 +2,8 @@
 //  Bomb_FinderUITests.swift
 //  Bomb FinderUITests
 //
-//  Created by Eric Jenson on 12/24/18.
-//  Copyright © 2018 Eric Jenson. All rights reserved.
+//  Created by Eric J on 12/24/18.
+//  Copyright © 2018 Eric J. All rights reserved.
 //
 
 import XCTest

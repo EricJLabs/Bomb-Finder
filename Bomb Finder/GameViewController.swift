@@ -2,8 +2,8 @@
 //  GameViewController.swift
 //  Bomb Finder
 //
-//  Created by Eric Jenson on 12/24/18.
-//  Copyright © 2018 Eric Jenson. All rights reserved.
+//  Created by Eric J 12/24/18.
+//  Copyright © 2018 Eric J. All rights reserved.
 //
 
 import UIKit
@@ -11,7 +11,11 @@ import UIKit
 class GameViewController: UIViewController {
     var board: Board?
     var firstTurn = true
+    var timer: Timer?
+    var startTime: Date?
+    private let formatter = DateFormatter()
     
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -24,13 +28,18 @@ class GameViewController: UIViewController {
             sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         )
         
-        let format = NSLocalizedString("com.ericjlabs.bombfinder", value: "%d Bombs", comment: "format number of bombs - 8 bombs")
+        let format = NSLocalizedString("com.ericjlabs.bombfinder.title", value: "%d Bombs", comment: "format number of bombs - 8 bombs")
         navigationController?.title = String(format: format, board?.numberOfBombs ?? 8)
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
+        
+        timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 26, weight: UIFont.Weight.regular)
     }
     
     func revealBoard() {
+        showTime(showMillisconds: true)
+        timer?.invalidate()
+        timer = nil
         board?.tiles.enumerated().forEach { (index, _) in reveal(at: index) }
     }
     
@@ -53,7 +62,7 @@ class GameViewController: UIViewController {
         if number != 0 {
             return
         }
-        let adjacentIndexes = Board.findAdjacentIndexes(index: index, width: board.width, height: board.height, type: .all, tiles: board.tiles)
+        let adjacentIndexes = Board.findAdjacentIndexes(index: index, width: board.width, height: board.height, tiles: board.tiles)
         adjacentIndexes.forEach { adjacentIndex in
             revealEmptySpaces(at: adjacentIndex)
         }
@@ -102,6 +111,43 @@ class GameViewController: UIViewController {
             self?.collectionView(collectionView, didSelectItemAt: indexPath)
         }
     }
+    
+    @objc func updateTimer() {
+        showTime(showMillisconds: false)
+    }
+    
+    private func showTime(showMillisconds: Bool) {
+        guard let startTime = startTime else {
+            return
+        }
+        
+        let ellapsedTime = Date().timeIntervalSince(startTime)
+        let ellapsedTimeRounded = Int(ellapsedTime)
+        
+        //let hours = ellapsedTimeRounded / 3600
+        let minutes = (ellapsedTimeRounded / 60) % 60
+        let seconds = ellapsedTimeRounded % 60
+
+        if showMillisconds {
+            let milliseconds = Int((ellapsedTime.truncatingRemainder(dividingBy: 1)) * 1000)
+            if minutes >= 1 {
+                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-min-sec-mill", value: "%d:%d.%02d", comment: "format stopwatch")
+                timeLabel.text = String(format: format, minutes, seconds, milliseconds)
+            } else {
+                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-sec-mill", value: "%d.%02d", comment: "format stopwatch")
+                timeLabel.text = String(format: format, seconds, milliseconds)
+            }
+        } else {
+            if minutes >= 1 {
+                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-min-sec-", value: "%d:%d", comment: "format stopwatch")
+                timeLabel.text = String(format: format, minutes, seconds)
+            } else {
+                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-sec", value: "%d", comment: "format stopwatch")
+                timeLabel.text = String(format: format, seconds)
+            }
+
+        }
+    }
 }
 
 extension GameViewController: UICollectionViewDataSource {
@@ -119,7 +165,7 @@ extension GameViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard section == 0,
             let board = board else {
-            return 0
+                return 0
         }
         
         return board.tiles.count
@@ -137,19 +183,24 @@ extension GameViewController: UICollectionViewDelegate {
         switch tile.value {
         case .bomb:
             if firstTurn {
+                // never allow user to lose on first guess.  Change the board and select same location
                 resetBoard(indexPath: indexPath)
                 return
             }
             reveal(at: indexPath.row)
             collectionView.backgroundColor = .red
             revealBoard()
-        case let .number(number):
+        case .number:
             revealEmptySpaces(at: indexPath.row)
             reveal(at: indexPath.row)
             if didWin() {
                 collectionView.backgroundColor = .green
                 revealBoard()
             }
+        }
+        if firstTurn {
+            startTime = Date()
+            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         }
         firstTurn = false
     }
