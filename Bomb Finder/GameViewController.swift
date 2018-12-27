@@ -9,14 +9,16 @@
 import UIKit
 
 class GameViewController: UIViewController {
+
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var playAgainButton: UIButton!
+    
     var board: Board?
     var firstTurn = true
     var timer: Timer?
     var startTime: Date?
     private let formatter = DateFormatter()
-    
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +38,18 @@ class GameViewController: UIViewController {
         timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 26, weight: UIFont.Weight.regular)
     }
     
+    override func viewDidLayoutSubviews() {
+        super .viewDidLayoutSubviews()
+        
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
     func revealBoard() {
         showTime(showMillisconds: true)
         timer?.invalidate()
         timer = nil
         board?.tiles.enumerated().forEach { (index, _) in reveal(at: index) }
+        showPlagAgain()
     }
     
     func reveal(at index: Int) {
@@ -48,6 +57,7 @@ class GameViewController: UIViewController {
             return
         }
         cell.coverView.isHidden = true
+        cell.flagLabel.isHidden = true
         board?.tiles[index].shown = true
     }
     
@@ -82,18 +92,30 @@ class GameViewController: UIViewController {
         } == nil
     }
     
-    @IBAction func onLongPress(_ gesture: UILongPressGestureRecognizer) {
-        guard gesture.state == .ended,
+    @IBAction func onPlayAgain(_ sender: Any) {
+        guard let board = board else {
+            return
+        }
+        firstTurn = true
+        timeLabel.text = "00:00.00"
+        playAgainButton.isHidden = true
+        collectionView.backgroundColor = .white
+        self.board = Board.create(size: board.width, numberOfBombs: board.numberOfBombs)
+        collectionView.reloadData()
+    }
+    
+     @IBAction func onLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        guard gestureRecognizer.state == .began,
             let board = board else {
                 return
         }
         
-        let location = gesture.location(in: collectionView)
+        let location = gestureRecognizer.location(in: collectionView)
         if let indexPath = collectionView.indexPathForItem(at: location),
             let cell = collectionView.cellForItem(at: indexPath) as? TileCollectionViewCell {
             let tile = board.tiles[indexPath.row]
             if !tile.shown {
-                cell.showFlag()
+                cell.cycleFlagIcon()
             }
         }
     }
@@ -148,6 +170,10 @@ class GameViewController: UIViewController {
 
         }
     }
+    
+    private func showPlagAgain() {
+        playAgainButton.isHidden = false
+    }
 }
 
 extension GameViewController: UICollectionViewDataSource {
@@ -176,6 +202,12 @@ extension GameViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let board = board else {
             assertionFailure()
+            return
+        }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TileCollectionViewCell else {
+            return
+        }
+        guard !cell.isBlocked else {
             return
         }
         let tile = board.tiles[indexPath.row]
@@ -211,7 +243,34 @@ class TileCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var flagLabel: UILabel!
     
+    var flagIcon = FlagIcon.none
+    
+    enum FlagIcon {
+        case none
+        case flag
+        case question
+        
+        var icon: String {
+            switch self {
+            case .none:
+                return ""
+            case .flag:
+                return "🏴‍☠️"
+            case .question:
+                return "🤔"
+            }
+        }
+    }
+    
+    var isBlocked: Bool {
+        return flagIcon != .none
+    }
+    
     func configure(tile: Tile) {
+        flagIcon = .none
+        flagLabel.text = flagIcon.icon
+        flagLabel.isHidden = false
+        coverView.isHidden = false
         switch tile.value {
         case .bomb:
             valueLabel.text = "💣"
@@ -220,8 +279,16 @@ class TileCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func showFlag() {
-        flagLabel.isHidden = false
+    func cycleFlagIcon() {
+        switch flagIcon {
+        case .none:
+            flagIcon = .flag
+        case .flag:
+            flagIcon = .question
+        case .question:
+            flagIcon = .none
+        }
+        flagLabel.text = flagIcon.icon
     }
 }
 
