@@ -35,6 +35,7 @@ class GameViewController: UIViewController {
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
         
+        playAgainButton.isHidden = true
         timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 26, weight: UIFont.Weight.regular)
     }
     
