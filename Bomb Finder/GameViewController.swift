@@ -116,7 +116,7 @@ class GameViewController: UIViewController {
             let cell = collectionView.cellForItem(at: indexPath) as? TileCollectionViewCell {
             let tile = board.tiles[indexPath.row]
             if !tile.shown {
-                cell.cycleFlagIcon()
+                cell.cycleFlagIcon(tile: tile)
             }
         }
     }
@@ -205,10 +205,7 @@ extension GameViewController: UICollectionViewDelegate {
             assertionFailure()
             return
         }
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TileCollectionViewCell else {
-            return
-        }
-        guard !cell.isBlocked else {
+        guard board.tiles[indexPath.row].flagIcon == .none else {
             return
         }
         let tile = board.tiles[indexPath.row]
@@ -244,34 +241,10 @@ class TileCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var flagLabel: UILabel!
     
-    var flagIcon = FlagIcon.none
-    
-    enum FlagIcon {
-        case none
-        case flag
-        case question
-        
-        var icon: String {
-            switch self {
-            case .none:
-                return ""
-            case .flag:
-                return "🏴‍☠️"
-            case .question:
-                return "🤔"
-            }
-        }
-    }
-    
-    var isBlocked: Bool {
-        return flagIcon != .none
-    }
-    
     func configure(tile: Tile) {
-        flagIcon = .none
-        flagLabel.text = flagIcon.icon
-        flagLabel.isHidden = false
-        coverView.isHidden = false
+        flagLabel.text = tile.flagIcon.icon
+        flagLabel.isHidden = tile.flagIcon == .none
+        coverView.isHidden = tile.shown
         switch tile.value {
         case .bomb:
             valueLabel.text = "💣"
@@ -280,16 +253,17 @@ class TileCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func cycleFlagIcon() {
-        switch flagIcon {
+    func cycleFlagIcon(tile: Tile) {
+        switch tile.flagIcon {
         case .none:
-            flagIcon = .flag
+            tile.flagIcon = .flag
         case .flag:
-            flagIcon = .question
+            tile.flagIcon = .question
         case .question:
-            flagIcon = .none
+            tile.flagIcon = .none
         }
-        flagLabel.text = flagIcon.icon
+        flagLabel.isHidden = tile.flagIcon == .none
+        flagLabel.text = tile.flagIcon.icon
     }
 }
 
@@ -330,3 +304,17 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
     }
     
 }
+
+extension Tile.FlagIcon {
+    var icon: String {
+        switch self {
+        case .none:
+            return ""
+        case .flag:
+            return "🏴‍☠️"
+        case .question:
+            return "🤔"
+        }
+    }
+}
+

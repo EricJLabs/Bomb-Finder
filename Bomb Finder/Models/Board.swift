@@ -99,9 +99,16 @@ class Tile {
         case number(Int)
     }
     
+    enum FlagIcon {
+        case none
+        case flag
+        case question
+    }
+
     let value: TileValue
     var shown = false 
-    
+    var flagIcon = FlagIcon.none
+
     init(value: TileValue, shown: Bool) {
         self.value = value
         self.shown = shown
