@@ -31,7 +31,7 @@ class GameViewController: UIViewController {
         )
         
         let format = NSLocalizedString("com.ericjlabs.bombfinder.title", value: "%d Bombs", comment: "format number of bombs - 8 bombs")
-        navigationController?.title = String(format: format, board?.numberOfBombs ?? 8)
+        title = String(format: format, board?.numberOfBombs ?? 8)
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
         

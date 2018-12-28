@@ -1,0 +1,36 @@
+/* Class = "UILabel"; text = "🤔"; ObjectID = "60E-Tg-fpp"; */
+"60E-Tg-fpp.text" = "🤔";
+
+/* Class = "UILabel"; text = "00:00"; ObjectID = "B2K-kk-Kkl"; */
+"B2K-kk-Kkl.text" = "00:00";
+
+/* Class = "UILabel"; text = "Size"; ObjectID = "CJY-rG-KSI"; */
+"CJY-rG-KSI.text" = "크기";
+
+/* Class = "UILabel"; text = "Bombs"; ObjectID = "cYF-P1-XcH"; */
+"cYF-P1-XcH.text" = "폭탄";
+
+/* Class = "UILabel"; text = "8"; ObjectID = "Div-UX-RxA"; */
+"Div-UX-RxA.text" = "8";
+
+/* Class = "UILabel"; text = "💣"; ObjectID = "Hoe-es-BUF"; */
+"Hoe-es-BUF.text" = "💣";
+
+/* Class = "UILabel"; text = "💣"; ObjectID = "iNJ-QU-uDb"; */
+"iNJ-QU-uDb.text" = "💣";
+
+/* Class = "UILabel"; text = "8"; ObjectID = "ire-aa-RFS"; */
+"ire-aa-RFS.text" = "8";
+
+/* Class = "UILabel"; text = "Time:"; ObjectID = "jy6-Po-8x7"; */
+"jy6-Po-8x7.text" = "시각:";
+
+/* Class = "UILabel"; text = "Bomb Finder"; ObjectID = "kPI-pS-LnZ"; */
+"kPI-pS-LnZ.text" = "Bomb Finder";
+
+/* Class = "UIButton"; normalTitle = "Play Again"; ObjectID = "oqO-KB-poM"; */
+"oqO-KB-poM.normalTitle" = "다시 재생";
+
+/* Class = "UIButton"; normalTitle = "Play"; ObjectID = "rf5-Eh-QC2"; */
+"rf5-Eh-QC2.normalTitle" = "놀이";
+

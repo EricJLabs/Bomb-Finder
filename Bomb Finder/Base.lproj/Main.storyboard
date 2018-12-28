@@ -137,10 +137,10 @@
             </objects>
             <point key="canvasLocation" x="1076" y="132.68365817091455"/>
         </scene>
-        <!--8 Bombs-->
+        <!--Game View Controller-->
         <scene sceneID="vYh-0c-0lp">
             <objects>
-                <viewController title="8 Bombs" id="MKU-Po-SrF" customClass="GameViewController" customModule="Bomb_Finder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="MKU-Po-SrF" customClass="GameViewController" customModule="Bomb_Finder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yZf-ak-ws3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
