@@ -12,10 +12,11 @@ class GameViewController: UIViewController {
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var playAgainButton: UIButton!
+    @IBOutlet weak var playAgainButtonItem: UIBarButtonItem!
     
     var board: Board?
     var firstTurn = true
+    var isGameOver = false
     var timer: Timer?
     var startTime: Date?
     private let formatter = DateFormatter()
@@ -35,7 +36,6 @@ class GameViewController: UIViewController {
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
         
-        playAgainButton.isHidden = true
         timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 26, weight: UIFont.Weight.regular)
     }
     
@@ -93,13 +93,14 @@ class GameViewController: UIViewController {
         } == nil
     }
     
-    @IBAction func onPlayAgain(_ sender: Any) {
+    @objc func onPlayAgain() {
         guard let board = board else {
             return
         }
+        isGameOver = false
         firstTurn = true
         timeLabel.text = "00:00.00"
-        playAgainButton.isHidden = true
+        navigationItem.rightBarButtonItem = nil
         collectionView.backgroundColor = .white
         self.board = Board.create(size: board.width, numberOfBombs: board.numberOfBombs)
         collectionView.reloadData()
@@ -107,6 +108,7 @@ class GameViewController: UIViewController {
     
      @IBAction func onLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
         guard gestureRecognizer.state == .began,
+            !isGameOver,
             let board = board else {
                 return
         }
@@ -173,7 +175,9 @@ class GameViewController: UIViewController {
     }
     
     private func showPlagAgain() {
-        playAgainButton.isHidden = false
+        isGameOver = true
+        let playAgain = NSLocalizedString("com.ericjlabs.bombfinder.play-again", value: "Play Again", comment: "Start the game again.")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: playAgain, style: .plain, target: self, action: #selector(onPlayAgain))
     }
 }
 
@@ -205,7 +209,8 @@ extension GameViewController: UICollectionViewDelegate {
             assertionFailure()
             return
         }
-        guard board.tiles[indexPath.row].flagIcon == .none else {
+        guard !isGameOver,
+            board.tiles[indexPath.row].flagIcon == .none else {
             return
         }
         let tile = board.tiles[indexPath.row]
@@ -243,7 +248,7 @@ class TileCollectionViewCell: UICollectionViewCell {
     
     func configure(tile: Tile) {
         flagLabel.text = tile.flagIcon.icon
-        flagLabel.isHidden = tile.flagIcon == .none
+        flagLabel.isHidden = tile.flagIcon == .none || tile.shown
         coverView.isHidden = tile.shown
         switch tile.value {
         case .bomb:

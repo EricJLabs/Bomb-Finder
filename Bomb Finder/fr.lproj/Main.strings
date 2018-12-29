@@ -28,9 +28,6 @@
 /* Class = "UILabel"; text = "Bomb Finder"; ObjectID = "kPI-pS-LnZ"; */
 "kPI-pS-LnZ.text" = "Bomb Finder";
 
-/* Class = "UIButton"; normalTitle = "Play Again"; ObjectID = "oqO-KB-poM"; */
-"oqO-KB-poM.normalTitle" = "Rejouer";
-
 /* Class = "UIButton"; normalTitle = "Play"; ObjectID = "rf5-Eh-QC2"; */
 "rf5-Eh-QC2.normalTitle" = "Jouer";
 

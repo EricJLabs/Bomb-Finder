@@ -1,3 +1,6 @@
+/* Start the game again. */
+"com.ericjlabs.bombfinder.play-again" = "다시 재생";
+
 /* format number of bombs - 8 bombs */
 "com.ericjlabs.bombfinder.title" = "%d 개의 폭탄";
 
