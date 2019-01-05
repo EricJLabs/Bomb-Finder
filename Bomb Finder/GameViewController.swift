@@ -119,6 +119,7 @@ class GameViewController: UIViewController {
             let tile = board.tiles[indexPath.row]
             if !tile.shown {
                 cell.cycleFlagIcon(tile: tile)
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
                 explodeCellAnimation(at: indexPath.row, updateText: nil)
             }
         }
