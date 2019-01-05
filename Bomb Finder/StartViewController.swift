@@ -13,11 +13,15 @@ class StartViewController: UIViewController {
     @IBOutlet weak var bombsSlider: UISlider!
     @IBOutlet weak var sizeLabel: UILabel!
     @IBOutlet weak var bombsLabel: UILabel!
+    @IBOutlet weak var explosionLabel: UILabel!
+    @IBOutlet weak var bombLabel: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        //navigationController?.view.isHidden = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.openingAnimation()
+        }
     }
     
     @IBAction func onSizeChanged(_ sender: UISlider) {
@@ -46,5 +50,26 @@ class StartViewController: UIViewController {
         }
         
         gameViewController.board = Board.create(size: size, numberOfBombs: numberOfBombs)
+    }
+    
+    private func openingAnimation() {
+        explosionLabel.transform = CGAffineTransform.init(scaleX: 0.3, y: 0.3).rotated(by: 0.25)
+        UIView.animateKeyframes(withDuration: 0.6, delay: 0.0, options: .calculationModeLinear, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1/3, animations: {
+                self.explosionLabel.transform = CGAffineTransform.identity
+                self.bombLabel.alpha = 0.0
+                self.explosionLabel.alpha = 1.0
+            })
+            UIView.addKeyframe(withRelativeStartTime: 1/3, relativeDuration: 1/3, animations: {
+                self.explosionLabel.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            })
+            UIView.addKeyframe(withRelativeStartTime: 2/3, relativeDuration: 1/3, animations: {
+                self.explosionLabel.transform = CGAffineTransform.init(scaleX: 1.1, y: 1.1)
+            })
+        }, completion: { _ in
+            self.explosionLabel.transform = CGAffineTransform.identity
+            self.bombLabel.alpha = 1.0
+            self.explosionLabel.alpha = 0.0
+        })
     }
 }

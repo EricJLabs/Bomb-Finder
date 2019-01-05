@@ -179,6 +179,19 @@ class GameViewController: UIViewController {
         let playAgain = NSLocalizedString("com.ericjlabs.bombfinder.play-again", value: "Play Again", comment: "Start the game again.")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: playAgain, style: .plain, target: self, action: #selector(onPlayAgain))
     }
+    
+    private func bombAnimation(at index: Int) {
+        guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TileCollectionViewCell else {
+            return
+        }
+        
+        cell.valueLabel.text = "💥"
+        UIView.animate(withDuration: 0.3, animations: {
+            cell.transform =  CGAffineTransform.init(scaleX: 5.0, y: 5.0)
+        }) { _ in
+            cell.transform = CGAffineTransform.identity
+        }
+    }
 }
 
 extension GameViewController: UICollectionViewDataSource {
@@ -222,7 +235,9 @@ extension GameViewController: UICollectionViewDelegate {
                 resetBoard(indexPath: indexPath)
                 return
             }
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
             reveal(at: indexPath.row)
+            bombAnimation(at: indexPath.row)
             collectionView.backgroundColor = .red
             revealBoard()
         case .number:
