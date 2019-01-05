@@ -119,6 +119,7 @@ class GameViewController: UIViewController {
             let tile = board.tiles[indexPath.row]
             if !tile.shown {
                 cell.cycleFlagIcon(tile: tile)
+                explodeCellAnimation(at: indexPath.row, updateText: nil)
             }
         }
     }
@@ -180,16 +181,21 @@ class GameViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: playAgain, style: .plain, target: self, action: #selector(onPlayAgain))
     }
     
-    private func bombAnimation(at index: Int) {
+    private func explodeCellAnimation(at index: Int, updateText: String?) {
         guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TileCollectionViewCell else {
             return
         }
         
-        cell.valueLabel.text = "💥"
+        if let updateText = updateText {
+            cell.valueLabel.text = updateText
+        }
+        let oldZPosition = cell.layer.zPosition
+        cell.layer.zPosition = 100
         UIView.animate(withDuration: 0.3, animations: {
             cell.transform =  CGAffineTransform.init(scaleX: 5.0, y: 5.0)
         }) { _ in
             cell.transform = CGAffineTransform.identity
+            cell.layer.zPosition = oldZPosition
         }
     }
 }
@@ -237,7 +243,7 @@ extension GameViewController: UICollectionViewDelegate {
             }
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             reveal(at: indexPath.row)
-            bombAnimation(at: indexPath.row)
+            explodeCellAnimation(at: indexPath.row, updateText: "💥")
             collectionView.backgroundColor = .red
             revealBoard()
         case .number:
