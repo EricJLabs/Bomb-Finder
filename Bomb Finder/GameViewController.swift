@@ -13,6 +13,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var playAgainButtonItem: UIBarButtonItem!
+    @IBOutlet weak var gameOverLabel: UILabel!
+    @IBOutlet weak var timeView: UIView!
     
     var board: Board?
     var firstTurn = true
@@ -101,7 +103,7 @@ class GameViewController: UIViewController {
         firstTurn = true
         timeLabel.text = "00:00.00"
         navigationItem.rightBarButtonItem = nil
-        collectionView.backgroundColor = .white
+        hideGameOver()
         self.board = Board.create(size: board.width, numberOfBombs: board.numberOfBombs)
         collectionView.reloadData()
     }
@@ -120,7 +122,6 @@ class GameViewController: UIViewController {
             if !tile.shown {
                 cell.cycleFlagIcon(tile: tile)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
-                explodeCellAnimation(at: indexPath.row, updateText: nil)
             }
         }
     }
@@ -182,14 +183,12 @@ class GameViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: playAgain, style: .plain, target: self, action: #selector(onPlayAgain))
     }
     
-    private func explodeCellAnimation(at index: Int, updateText: String?) {
+    private func explodeCellAnimation(at index: Int, updateText: String) {
         guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TileCollectionViewCell else {
             return
         }
         
-        if let updateText = updateText {
-            cell.valueLabel.text = updateText
-        }
+        cell.valueLabel.text = updateText
         let oldZPosition = cell.layer.zPosition
         cell.layer.zPosition = 100
         UIView.animate(withDuration: 0.3, animations: {
@@ -198,6 +197,17 @@ class GameViewController: UIViewController {
             cell.transform = CGAffineTransform.identity
             cell.layer.zPosition = oldZPosition
         }
+    }
+    
+    private func hideGameOver() {
+        gameOverLabel.isHidden = true
+        timeView.backgroundColor = .white
+    }
+    
+    private func gameOver(win: Bool) {
+        gameOverLabel.isHidden = false
+        gameOverLabel.text = win ? "😎" : "😡"
+        timeView.backgroundColor = win ? .green : .red
     }
 }
 
@@ -245,13 +255,13 @@ extension GameViewController: UICollectionViewDelegate {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             reveal(at: indexPath.row)
             explodeCellAnimation(at: indexPath.row, updateText: "💥")
-            collectionView.backgroundColor = .red
+            gameOver(win: false)
             revealBoard()
         case .number:
             revealEmptySpaces(at: indexPath.row)
             reveal(at: indexPath.row)
             if didWin() {
-                collectionView.backgroundColor = .green
+                gameOver(win: true)
                 revealBoard()
             }
         }
