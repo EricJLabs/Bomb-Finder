@@ -29,7 +29,6 @@ struct Settings {
             UserDefaults.standard.set(newValue, forKey: Keys.size.rawValue)
         }
         get {
-            return
             let value = UserDefaults.standard.integer(forKey: Keys.size.rawValue)
             return value == 0 ? 9 : value
         }
