@@ -293,6 +293,10 @@ class TileCollectionViewCell: UICollectionViewCell {
         }
         layer.borderWidth = 0
         layer.borderColor = UIColor.white.cgColor
+        
+        let fontSize = bounds.width <= 26 ? 18 : 26
+        flagLabel.font = flagLabel.font.withSize(CGFloat(fontSize))
+        valueLabel.font = valueLabel.font.withSize(CGFloat(fontSize))
     }
     
     func cycleFlagIcon(tile: Tile) {
