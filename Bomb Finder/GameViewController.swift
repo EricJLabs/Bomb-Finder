@@ -277,7 +277,6 @@ class TileCollectionViewCell: UICollectionViewCell {
             valueLabel.text = "💣"
         case let .number(number):
             valueLabel.text = number == 0 ? "" : "\(number)"
-            setLabelColor(basedOn: number)
         }
     }
     
@@ -293,30 +292,6 @@ class TileCollectionViewCell: UICollectionViewCell {
         flagLabel.isHidden = tile.flagIcon == .none
         flagLabel.text = tile.flagIcon.icon
     }
-    
-    private func setLabelColor(basedOn number: Int) {
-        let color: UIColor
-        switch number {
-        case 1:
-            color = .blue
-        case 2:
-            color = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 1)
-        case 3:
-            color = .black
-        case 4:
-            color = .brown
-        case 5:
-            color = .purple
-        case 6:
-            color = .red
-        case 7:
-            color = .cyan
-        default:
-            color = .orange
-        }
-        valueLabel.textColor = color
-    }
-
 }
 
 class ColumnFlowLayout: UICollectionViewFlowLayout {
