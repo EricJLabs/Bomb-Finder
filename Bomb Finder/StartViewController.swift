@@ -10,11 +10,28 @@ import UIKit
 
 class StartViewController: UIViewController {
     
-    @IBOutlet weak var bombsSlider: UISlider!
     @IBOutlet weak var sizeLabel: UILabel!
-    @IBOutlet weak var bombsLabel: UILabel!
     @IBOutlet weak var explosionLabel: UILabel!
     @IBOutlet weak var bombLabel: UILabel!
+    @IBOutlet weak var levelSegmentedControl: UISegmentedControl!
+    
+    var numberOfBombs: Int {
+        guard let sizeText = sizeLabel.text,
+            let size = Double(sizeText) else {
+            preconditionFailure()
+        }
+        
+        let percent: Double
+        switch levelSegmentedControl.selectedSegmentIndex {
+        case 0:
+            percent = 0.124  // easy
+        case 1:
+            percent = 0.16// intermediate
+        default:
+            percent = 0.20 // hard
+        }
+        return Int(size * size * percent)
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -24,28 +41,18 @@ class StartViewController: UIViewController {
         }
     }
     
+    @IBAction func onLevelChanged(_ sender: UISegmentedControl) {
+    }
+    
     @IBAction func onSizeChanged(_ sender: UISlider) {
         let size = Int(sender.value)
         sizeLabel.text = String(size)
-        
-        let newMaxBombs = Float(size * size / 2)
-        bombsSlider.maximumValue = newMaxBombs
-        if bombsSlider.value >= newMaxBombs {
-            bombsSlider.value = Float(size)
-        }
-        bombsLabel.text = String(Int(bombsSlider.value))
-    }
-    
-    @IBAction func onBombsChanged(_ sender: UISlider) {
-        bombsLabel.text = String(Int(sender.value))
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let gameViewController = segue.destination as? GameViewController,
             let sizeText = sizeLabel.text,
-            let size = Int(sizeText) ,
-            let numberOfBombsText = bombsLabel.text,
-            let numberOfBombs = Int(numberOfBombsText) else {
+            let size = Int(sizeText) else {
             return
         }
         

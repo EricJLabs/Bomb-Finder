@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9729DB1221D5D70600259B54 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9729DB1021D5D70600259B54 /* Localizable.strings */; };
+		9753E6B921E2B8D8006BC548 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753E6B821E2B8D8006BC548 /* Settings.swift */; };
 		975C78D021D12AE700DDA0ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C78CF21D12AE700DDA0ED /* AppDelegate.swift */; };
 		975C78D521D12AE700DDA0ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 975C78D321D12AE700DDA0ED /* Main.storyboard */; };
 		975C78D721D12AE800DDA0ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 975C78D621D12AE800DDA0ED /* Assets.xcassets */; };
@@ -70,6 +71,7 @@
 		97426B6821D5DEC400DE9F6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		97426B6921D5DED000DE9F6A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		97426B6A21D5DEDB00DE9F6A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9753E6B821E2B8D8006BC548 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		975C78CC21D12AE700DDA0ED /* Bomb Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bomb Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		975C78CF21D12AE700DDA0ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		975C78D421D12AE700DDA0ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				975C78D621D12AE800DDA0ED /* Assets.xcassets */,
 				975C78DB21D12AE800DDA0ED /* Info.plist */,
 				9729DB1021D5D70600259B54 /* Localizable.strings */,
+				9753E6B821E2B8D8006BC548 /* Settings.swift */,
 			);
 			path = "Bomb Finder";
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				975C790321D1493800DDA0ED /* Board.swift in Sources */,
 				975C78D021D12AE700DDA0ED /* AppDelegate.swift in Sources */,
 				975C78FE21D133A800DDA0ED /* StartViewController.swift in Sources */,
+				9753E6B921E2B8D8006BC548 /* Settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
