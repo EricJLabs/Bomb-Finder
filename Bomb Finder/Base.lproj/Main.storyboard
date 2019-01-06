@@ -217,6 +217,7 @@
                                             <constraint firstAttribute="bottom" secondItem="B2K-kk-Kkl" secondAttribute="bottom" constant="8" id="Ls8-K0-Sle"/>
                                             <constraint firstItem="B2K-kk-Kkl" firstAttribute="centerX" secondItem="X5h-it-J9u" secondAttribute="centerX" id="frB-Nk-4v7"/>
                                             <constraint firstItem="B2K-kk-Kkl" firstAttribute="top" secondItem="X5h-it-J9u" secondAttribute="top" constant="8" id="mIE-FB-kTf"/>
+                                            <constraint firstItem="j3M-8U-mGf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="X5h-it-J9u" secondAttribute="leading" constant="20" symbolic="YES" id="t6Q-ss-3md"/>
                                         </constraints>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="q5d-ld-Clw">
