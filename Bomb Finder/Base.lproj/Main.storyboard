@@ -155,6 +155,7 @@
                         <outlet property="explosionLabel" destination="SG5-sF-x2v" id="c5u-FP-NGh"/>
                         <outlet property="levelSegmentedControl" destination="LEX-Ac-oVy" id="Usc-uR-hZC"/>
                         <outlet property="sizeLabel" destination="ire-aa-RFS" id="0Gv-cN-OAz"/>
+                        <outlet property="sizeSlider" destination="yQt-BM-mYG" id="76w-ra-1V3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -14,6 +14,7 @@ class StartViewController: UIViewController {
     @IBOutlet weak var explosionLabel: UILabel!
     @IBOutlet weak var bombLabel: UILabel!
     @IBOutlet weak var levelSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var sizeSlider: UISlider!
     
     var numberOfBombs: Int {
         guard let sizeText = sizeLabel.text,
@@ -33,6 +34,15 @@ class StartViewController: UIViewController {
         return Int(size * size * percent)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        levelSegmentedControl.selectedSegmentIndex = Settings.shared.level.rawValue
+        let size = Settings.shared.size
+        sizeSlider.setValue(Float(size), animated: false)
+        sizeLabel.text = String(size)
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -42,11 +52,13 @@ class StartViewController: UIViewController {
     }
     
     @IBAction func onLevelChanged(_ sender: UISegmentedControl) {
+        Settings.shared.level = Level(rawValue: sender.selectedSegmentIndex) ?? .easy
     }
     
     @IBAction func onSizeChanged(_ sender: UISlider) {
         let size = Int(sender.value)
         sizeLabel.text = String(size)
+        Settings.shared.size = size
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
