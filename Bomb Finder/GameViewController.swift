@@ -183,7 +183,7 @@ class GameViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: playAgain, style: .plain, target: self, action: #selector(onPlayAgain))
     }
     
-    private func explodeCellAnimation(at index: Int, updateText: String) {
+    private func explodeCellAnimation(at index: Int, updateText: String, updateBorderColor: UIColor?) {
         guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TileCollectionViewCell else {
             return
         }
@@ -196,6 +196,10 @@ class GameViewController: UIViewController {
         }) { _ in
             cell.transform = CGAffineTransform.identity
             cell.layer.zPosition = oldZPosition
+            if let updateBorderColor = updateBorderColor {
+                cell.layer.borderWidth = 1
+                cell.layer.borderColor = updateBorderColor.cgColor
+            }
         }
     }
     
@@ -207,7 +211,6 @@ class GameViewController: UIViewController {
     private func gameOver(win: Bool) {
         gameOverLabel.isHidden = false
         gameOverLabel.text = win ? "😎" : "😡"
-        timeView.backgroundColor = win ? .green : .red
     }
 }
 
@@ -254,7 +257,7 @@ extension GameViewController: UICollectionViewDelegate {
             }
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             reveal(at: indexPath.row)
-            explodeCellAnimation(at: indexPath.row, updateText: "💥")
+            explodeCellAnimation(at: indexPath.row, updateText: "💥", updateBorderColor: .red)
             gameOver(win: false)
             revealBoard()
         case .number:
@@ -267,7 +270,7 @@ extension GameViewController: UICollectionViewDelegate {
         }
         if firstTurn {
             startTime = Date()
-            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         }
         firstTurn = false
     }
@@ -288,6 +291,8 @@ class TileCollectionViewCell: UICollectionViewCell {
         case let .number(number):
             valueLabel.text = number == 0 ? "" : "\(number)"
         }
+        layer.borderWidth = 0
+        layer.borderColor = UIColor.white.cgColor
     }
     
     func cycleFlagIcon(tile: Tile) {
