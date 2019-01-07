@@ -16,6 +16,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var gameOverLabel: UILabel!
     @IBOutlet weak var timeView: UIView!
     
+    var gameCenterHelper: GameCenterHelper?
     var board: Board?
     var firstTurn = true
     var isGameOver = false
@@ -93,6 +94,15 @@ class GameViewController: UIViewController {
                 return !tile.shown
             }
         } == nil
+    }
+    
+    private func reportScore(timeInterval: TimeInterval) {
+        guard let board = board,
+            let gameCenterHelper = gameCenterHelper else {
+            return
+        }
+        let score = Score(size: board.width, numberOfBombs: board.numberOfBombs, time: timeInterval)
+        gameCenterHelper.post(score: score)
     }
     
     @objc func onPlayAgain() {
@@ -261,11 +271,15 @@ extension GameViewController: UICollectionViewDelegate {
             gameOver(win: false)
             revealBoard()
         case .number:
+            let tapTime = Date()
             revealEmptySpaces(at: indexPath.row)
             reveal(at: indexPath.row)
             if didWin() {
                 gameOver(win: true)
                 revealBoard()
+                if let startTime = startTime {
+                    reportScore(timeInterval: tapTime.timeIntervalSince(startTime))
+                }
             }
         }
         if firstTurn {
