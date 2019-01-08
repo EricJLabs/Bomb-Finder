@@ -53,8 +53,6 @@ class StartViewController: UIViewController {
         let size = Settings.shared.size
         sizeSlider.setValue(Float(size), animated: false)
         sizeLabel.text = String(size)
-        let highScores = NSLocalizedString("com.ericjlabs.bombfinder.high-scores", value: "High Scores", comment: "Show the high scores.")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: highScores, style: .plain, target: self, action: #selector(onShowHighScores))
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -107,13 +105,13 @@ class StartViewController: UIViewController {
         })
     }
     
-    @objc private func onShowHighScores() {
+    @IBAction func onShowHighScores(_ sender: UIBarButtonItem) {
         let gameCenterViewController = GKGameCenterViewController()
         gameCenterViewController.gameCenterDelegate = self
         gameCenterViewController.viewState = .leaderboards
         gameCenterViewController.leaderboardIdentifier = leaderBoardID
         
-         present(gameCenterViewController, animated: true, completion: nil)
+        present(gameCenterViewController, animated: true, completion: nil)
     }
 }
 

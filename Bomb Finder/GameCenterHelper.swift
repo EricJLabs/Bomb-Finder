@@ -37,7 +37,7 @@ class GameCenterHelper {
         let player = GKLocalPlayer.local
         player.authenticateHandler = { [weak self] signInVC, error in
             if let signInVC = signInVC {
-                signInVC.present(signInVC, animated: true)
+                UIApplication.shared.keyWindow?.rootViewController?.present(signInVC, animated: true)
             }
             if player.isAuthenticated {
                 self?.isEnabled = true

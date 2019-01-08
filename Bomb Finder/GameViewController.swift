@@ -38,8 +38,6 @@ class GameViewController: UIViewController {
         title = String(format: format, board?.numberOfBombs ?? 8)
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
-        
-        timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 26, weight: UIFont.Weight.regular)
     }
     
     override func viewDidLayoutSubviews() {

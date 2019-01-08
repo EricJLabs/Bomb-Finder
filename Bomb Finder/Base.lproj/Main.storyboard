@@ -131,7 +131,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="gvV-Fa-cqJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="1IJ-IP-Bsh"/>
-                            <constraint firstAttribute="bottom" secondItem="hQn-5S-gwQ" secondAttribute="bottom" constant="16" id="67N-HQ-Iuu"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hQn-5S-gwQ" secondAttribute="bottom" constant="16" id="67N-HQ-Iuu"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gvV-Fa-cqJ" secondAttribute="trailing" id="6Tw-RX-fGO"/>
                             <constraint firstItem="M8h-Oa-9Ot" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.8" id="6fJ-4W-Vfv"/>
                             <constraint firstItem="LEX-Ac-oVy" firstAttribute="top" secondItem="VPb-7C-oLj" secondAttribute="bottom" id="6zA-6d-7r5"/>
@@ -149,7 +149,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="pw7-bT-h31"/>
+                    <navigationItem key="navigationItem" id="pw7-bT-h31">
+                        <barButtonItem key="rightBarButtonItem" title="High Scores" id="5gq-Ln-yFs">
+                            <connections>
+                                <action selector="onShowHighScores:" destination="BYZ-38-t0r" id="XLf-qm-hzH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="bombLabel" destination="Hoe-es-BUF" id="TZw-dL-Vez"/>
                         <outlet property="explosionLabel" destination="SG5-sF-x2v" id="c5u-FP-NGh"/>
@@ -298,7 +304,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="G1a-g2-Mqo" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="psc-3f-yFn">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
