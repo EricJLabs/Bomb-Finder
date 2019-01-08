@@ -17,7 +17,7 @@ class GameCenterHelper {
     
     func post(score: Score) {
         let gkScore = GKScore(leaderboardIdentifier: score.leaderBoardID)
-        gkScore.value = Int64(score.time)
+        gkScore.value = Int64(score.time * 100)
         GKScore.report([gkScore]) { error in
             print("reported")
             if let error = error {
@@ -26,11 +26,22 @@ class GameCenterHelper {
         }
     }
     
-    func findHighScore(leaderBoardID: String) -> Score? {
-        guard let score = GKScore(leaderboardIdentifier: leaderBoardID) as? Score else {
-            return nil
+    func findHighScore(size: Int, numberOfBombs: Int, completion: @escaping (TimeInterval?) -> Void) {
+        let leaderboardID = Score(size: size, numberOfBombs: numberOfBombs, time: 0.0).leaderBoardID
+        let leaderboard = GKLeaderboard()
+        leaderboard.identifier = leaderboardID
+        leaderboard.loadScores { scores, error in
+            if error != nil {
+                completion(nil)
+                return
+            }
+            var topUser: TimeInterval?
+            if let value = leaderboard.localPlayerScore?.value {
+                topUser = TimeInterval(Double(value) / 100.0)
+            }
+            completion(topUser)
         }
-        
+
     }
     
     private func authenticatePlayer() {

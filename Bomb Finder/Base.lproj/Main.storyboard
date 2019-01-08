@@ -180,13 +180,13 @@
                                 <rect key="frame" x="0.0" y="72" width="320" height="47.5"/>
                                 <subviews>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😎" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j3M-8U-mGf">
-                                        <rect key="frame" x="78.5" y="8" width="30" height="31.5"/>
+                                        <rect key="frame" x="106" y="8" width="30" height="31.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2K-kk-Kkl">
-                                        <rect key="frame" x="124.5" y="8" width="71.5" height="31.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2K-kk-Kkl">
+                                        <rect key="frame" x="152" y="8" width="16.5" height="31.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -264,6 +264,23 @@
                                     <outlet property="delegate" destination="MKU-Po-SrF" id="Py1-NO-8sk"/>
                                 </connections>
                             </collectionView>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vcS-Ah-t46" userLabel="Best TIme Stack">
+                                <rect key="frame" x="86" y="446" width="148.5" height="18"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My best time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SfR-Xu-jnI">
+                                        <rect key="frame" x="0.0" y="0.0" width="93" height="18"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1:25:01" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29n-mh-iix">
+                                        <rect key="frame" x="99" y="0.0" width="49.5" height="18"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -271,9 +288,11 @@
                             <constraint firstItem="q5d-ld-Clw" firstAttribute="leading" secondItem="2Ep-l9-jEL" secondAttribute="leading" id="5f6-pV-R7V"/>
                             <constraint firstItem="X5h-it-J9u" firstAttribute="leading" secondItem="2Ep-l9-jEL" secondAttribute="leading" id="BYs-Di-l0x"/>
                             <constraint firstItem="q5d-ld-Clw" firstAttribute="top" secondItem="X5h-it-J9u" secondAttribute="bottom" constant="8" id="De5-8F-kNn"/>
+                            <constraint firstItem="2Ep-l9-jEL" firstAttribute="bottom" secondItem="vcS-Ah-t46" secondAttribute="bottom" constant="16" id="Dk4-hk-NcK"/>
                             <constraint firstItem="2Ep-l9-jEL" firstAttribute="bottom" secondItem="q5d-ld-Clw" secondAttribute="bottom" id="F4r-4K-QeG"/>
                             <constraint firstItem="X5h-it-J9u" firstAttribute="top" secondItem="2Ep-l9-jEL" secondAttribute="top" constant="8" id="HS4-CI-y5Q"/>
                             <constraint firstItem="X5h-it-J9u" firstAttribute="trailing" secondItem="2Ep-l9-jEL" secondAttribute="trailing" id="XeM-Ve-To3"/>
+                            <constraint firstItem="vcS-Ah-t46" firstAttribute="centerX" secondItem="yZf-ak-ws3" secondAttribute="centerX" id="api-Ry-7gl"/>
                             <constraint firstItem="q5d-ld-Clw" firstAttribute="trailing" secondItem="2Ep-l9-jEL" secondAttribute="trailing" id="ivs-Ml-cEG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2Ep-l9-jEL"/>
@@ -283,6 +302,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="iYU-lk-Yhw"/>
                     <connections>
+                        <outlet property="bestTImeStack" destination="vcS-Ah-t46" id="m0h-Wa-teP"/>
+                        <outlet property="bestTimeLabel" destination="29n-mh-iix" id="fAh-TQ-Gow"/>
                         <outlet property="collectionView" destination="q5d-ld-Clw" id="Ia3-nf-nLc"/>
                         <outlet property="gameOverLabel" destination="j3M-8U-mGf" id="vhR-QS-PJZ"/>
                         <outlet property="timeLabel" destination="B2K-kk-Kkl" id="Sr7-df-2QQ"/>
@@ -296,7 +317,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1908" y="132.68365817091455"/>
+            <point key="canvasLocation" x="1906.875" y="132.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="I1I-a7-1Sw">

@@ -15,6 +15,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var playAgainButtonItem: UIBarButtonItem!
     @IBOutlet weak var gameOverLabel: UILabel!
     @IBOutlet weak var timeView: UIView!
+    @IBOutlet weak var bestTimeLabel: UILabel!
+    @IBOutlet weak var bestTImeStack: UIStackView!
     
     var gameCenterHelper: GameCenterHelper?
     var board: Board?
@@ -22,7 +24,7 @@ class GameViewController: UIViewController {
     var isGameOver = false
     var timer: Timer?
     var startTime: Date?
-    private let formatter = DateFormatter()
+    var playerBestTime: TimeInterval?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,25 @@ class GameViewController: UIViewController {
         title = String(format: format, board?.numberOfBombs ?? 8)
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
+        
+        guard let board = board else {
+            return
+        }
+        gameCenterHelper?.findHighScore(size: board.width, numberOfBombs: board.numberOfBombs) { [weak self] bestTime in
+            guard let bestTime = bestTime else {
+                return
+            }
+            self?.playerBestTime = bestTime
+            self?.reportPlayerBestTime()
+        }
+    }
+    
+    private func reportPlayerBestTime() {
+        guard let playerBestTime = playerBestTime else {
+            return
+        }
+        bestTImeStack.isHidden = false
+        bestTimeLabel.text = ellapsedTimeString(ellapsedTime: playerBestTime, showMillisconds: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -158,33 +179,37 @@ class GameViewController: UIViewController {
         }
         
         let ellapsedTime = Date().timeIntervalSince(startTime)
+        timeLabel.text = ellapsedTimeString(ellapsedTime: ellapsedTime, showMillisconds: showMillisconds)
+    }
+
+    private func ellapsedTimeString(ellapsedTime: TimeInterval, showMillisconds: Bool) -> String {
         let ellapsedTimeRounded = Int(ellapsedTime)
         
         //let hours = ellapsedTimeRounded / 3600
         let minutes = (ellapsedTimeRounded / 60) % 60
         let seconds = ellapsedTimeRounded % 60
-
+        
         if showMillisconds {
             let milliseconds = Int((ellapsedTime.truncatingRemainder(dividingBy: 1)) * 1000)
             if minutes >= 1 {
                 let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-min-sec-mill", value: "%d:%d.%02d", comment: "format stopwatch")
-                timeLabel.text = String(format: format, minutes, seconds, milliseconds)
+                return String(format: format, minutes, seconds, milliseconds)
             } else {
                 let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-sec-mill", value: "%d.%02d", comment: "format stopwatch")
-                timeLabel.text = String(format: format, seconds, milliseconds)
+                return String(format: format, seconds, milliseconds)
             }
         } else {
             if minutes >= 1 {
                 let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-min-sec-", value: "%d:%d", comment: "format stopwatch")
-                timeLabel.text = String(format: format, minutes, seconds)
+                return String(format: format, minutes, seconds)
             } else {
                 let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-sec", value: "%d", comment: "format stopwatch")
-                timeLabel.text = String(format: format, seconds)
+                return String(format: format, seconds)
             }
-
+            
         }
     }
-    
+
     private func showPlagAgain() {
         isGameOver = true
         let playAgain = NSLocalizedString("com.ericjlabs.bombfinder.play-again", value: "Play Again", comment: "Start the game again.")
@@ -276,7 +301,16 @@ extension GameViewController: UICollectionViewDelegate {
                 gameOver(win: true)
                 revealBoard()
                 if let startTime = startTime {
-                    reportScore(timeInterval: tapTime.timeIntervalSince(startTime))
+                    let newTime = tapTime.timeIntervalSince(startTime)
+                    reportScore(timeInterval: newTime)
+                    if playerBestTime == nil {
+                        playerBestTime = newTime
+                    }
+                    if let playerBestTime = playerBestTime,
+                        newTime <= playerBestTime {
+                        self.playerBestTime = newTime
+                        reportPlayerBestTime()
+                    }
                 }
             }
         }
