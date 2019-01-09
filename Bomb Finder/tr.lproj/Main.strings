@@ -1,17 +1,17 @@
+/* Class = "UIBarButtonItem"; title = "High Scores"; ObjectID = "5gq-Ln-yFs"; */
+"5gq-Ln-yFs.title" = "Yüksek puanlar";
+
+/* Class = "UILabel"; text = "1:25:01"; ObjectID = "29n-mh-iix"; */
+"29n-mh-iix.text" = "";
+
 /* Class = "UILabel"; text = "🤔"; ObjectID = "60E-Tg-fpp"; */
 "60E-Tg-fpp.text" = "🤔";
 
-/* Class = "UILabel"; text = "00:00"; ObjectID = "B2K-kk-Kkl"; */
+/* Class = "UILabel"; text = "0"; ObjectID = "B2K-kk-Kkl"; */
 "B2K-kk-Kkl.text" = "00:00";
 
 /* Class = "UILabel"; text = "Size"; ObjectID = "CJY-rG-KSI"; */
 "CJY-rG-KSI.text" = "Boyut";
-
-/* Class = "UILabel"; text = "Bombs"; ObjectID = "cYF-P1-XcH"; */
-"cYF-P1-XcH.text" = "Bombaları";
-
-/* Class = "UILabel"; text = "8"; ObjectID = "Div-UX-RxA"; */
-"Div-UX-RxA.text" = "8";
 
 /* Class = "UILabel"; text = "💣"; ObjectID = "Hoe-es-BUF"; */
 "Hoe-es-BUF.text" = "💣";
@@ -22,12 +22,21 @@
 /* Class = "UILabel"; text = "8"; ObjectID = "ire-aa-RFS"; */
 "ire-aa-RFS.text" = "8";
 
-/* Class = "UILabel"; text = "Time:"; ObjectID = "jy6-Po-8x7"; */
-"jy6-Po-8x7.text" = "Zaman:";
-
 /* Class = "UILabel"; text = "Bomb Finder"; ObjectID = "kPI-pS-LnZ"; */
 "kPI-pS-LnZ.text" = "Bomb Finder";
 
+/* Class = "UISegmentedControl"; LEX-Ac-oVy.segmentTitles[0] = "Easy"; ObjectID = "LEX-Ac-oVy"; */
+"LEX-Ac-oVy.segmentTitles[0]" = "Kolay";
+
+/* Class = "UISegmentedControl"; LEX-Ac-oVy.segmentTitles[1] = "Intermediate"; ObjectID = "LEX-Ac-oVy"; */
+"LEX-Ac-oVy.segmentTitles[1]" = "Orta düzey";
+
+/* Class = "UISegmentedControl"; LEX-Ac-oVy.segmentTitles[2] = "Hard"; ObjectID = "LEX-Ac-oVy"; */
+"LEX-Ac-oVy.segmentTitles[2]" = "Zor";
+
 /* Class = "UIButton"; normalTitle = "Play"; ObjectID = "rf5-Eh-QC2"; */
 "rf5-Eh-QC2.normalTitle" = "Oyun";
+
+/* Class = "UILabel"; text = "My best time:"; ObjectID = "SfR-Xu-jnI"; */
+"SfR-Xu-jnI.text" = "En iyi zamanım";
 
