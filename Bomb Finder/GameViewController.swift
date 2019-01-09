@@ -12,7 +12,6 @@ class GameViewController: UIViewController {
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var playAgainButtonItem: UIBarButtonItem!
     @IBOutlet weak var gameOverLabel: UILabel!
     @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var bestTimeLabel: UILabel!
@@ -58,7 +57,7 @@ class GameViewController: UIViewController {
             return
         }
         bestTImeStack.isHidden = false
-        bestTimeLabel.text = ellapsedTimeString(ellapsedTime: playerBestTime, showMillisconds: true)
+        bestTimeLabel.text = ellapsedTimeString(ellapsedTime: playerBestTime, showHundredths: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -115,22 +114,13 @@ class GameViewController: UIViewController {
         } == nil
     }
     
-    private func reportScore(timeInterval: TimeInterval) {
-        guard let board = board,
-            let gameCenterHelper = gameCenterHelper else {
-            return
-        }
-        let score = Score(size: board.width, numberOfBombs: board.numberOfBombs, time: timeInterval)
-        gameCenterHelper.post(score: score)
-    }
-    
     @objc func onPlayAgain() {
         guard let board = board else {
             return
         }
         isGameOver = false
         firstTurn = true
-        timeLabel.text = "00:00.00"
+        timeLabel.text = "0"
         navigationItem.rightBarButtonItem = nil
         hideGameOver()
         self.board = Board.create(size: board.width, numberOfBombs: board.numberOfBombs)
@@ -179,35 +169,23 @@ class GameViewController: UIViewController {
         }
         
         let ellapsedTime = Date().timeIntervalSince(startTime)
-        timeLabel.text = ellapsedTimeString(ellapsedTime: ellapsedTime, showMillisconds: showMillisconds)
+        timeLabel.text = ellapsedTimeString(ellapsedTime: ellapsedTime, showHundredths: showMillisconds)
     }
 
-    private func ellapsedTimeString(ellapsedTime: TimeInterval, showMillisconds: Bool) -> String {
-        let ellapsedTimeRounded = Int(ellapsedTime)
+    private func ellapsedTimeString(ellapsedTime: TimeInterval, showHundredths: Bool) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second] // swift 4.1 does not cosider .nanoseconds
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .dropLeading
         
-        //let hours = ellapsedTimeRounded / 3600
-        let minutes = (ellapsedTimeRounded / 60) % 60
-        let seconds = ellapsedTimeRounded % 60
+        let time = formatter.string(from: ellapsedTime) ?? ""
         
-        if showMillisconds {
-            let milliseconds = Int((ellapsedTime.truncatingRemainder(dividingBy: 1)) * 1000)
-            if minutes >= 1 {
-                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-min-sec-mill", value: "%d:%d.%02d", comment: "format stopwatch")
-                return String(format: format, minutes, seconds, milliseconds)
-            } else {
-                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-sec-mill", value: "%d.%02d", comment: "format stopwatch")
-                return String(format: format, seconds, milliseconds)
-            }
-        } else {
-            if minutes >= 1 {
-                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-min-sec-", value: "%d:%d", comment: "format stopwatch")
-                return String(format: format, minutes, seconds)
-            } else {
-                let format = NSLocalizedString("com.ericjlabs.bombfinder.timer-sec", value: "%d", comment: "format stopwatch")
-                return String(format: format, seconds)
-            }
-            
+        if !showHundredths {
+            return time
         }
+        
+        let hundredths = Int(round((ellapsedTime.truncatingRemainder(dividingBy: 1)) * 100))
+        return String("\(time).\(hundredths)")
     }
 
     private func showPlagAgain() {
@@ -244,6 +222,31 @@ class GameViewController: UIViewController {
     private func gameOver(win: Bool) {
         gameOverLabel.isHidden = false
         gameOverLabel.text = win ? "😎" : "😡"
+    }
+    
+    private func reportScore(tapTime: Date) {
+        guard let startTime = startTime else {
+            return
+        }
+        let newTime = tapTime.timeIntervalSince(startTime)
+        reportScoreToGameCenter(timeInterval: newTime)
+        if playerBestTime == nil {
+            playerBestTime = newTime
+        }
+        if let playerBestTime = playerBestTime,
+            newTime <= playerBestTime {
+            self.playerBestTime = newTime
+            reportPlayerBestTime()
+        }
+    }
+    
+    private func reportScoreToGameCenter(timeInterval: TimeInterval) {
+        guard let board = board,
+            let gameCenterHelper = gameCenterHelper else {
+                return
+        }
+        let score = Score(size: board.width, numberOfBombs: board.numberOfBombs, time: timeInterval)
+        gameCenterHelper.post(score: score)
     }
 }
 
@@ -298,23 +301,15 @@ extension GameViewController: UICollectionViewDelegate {
             revealEmptySpaces(at: indexPath.row)
             reveal(at: indexPath.row)
             if didWin() {
+                if firstTurn {
+                    startTime = tapTime
+                }
                 gameOver(win: true)
                 revealBoard()
-                if let startTime = startTime {
-                    let newTime = tapTime.timeIntervalSince(startTime)
-                    reportScore(timeInterval: newTime)
-                    if playerBestTime == nil {
-                        playerBestTime = newTime
-                    }
-                    if let playerBestTime = playerBestTime,
-                        newTime <= playerBestTime {
-                        self.playerBestTime = newTime
-                        reportPlayerBestTime()
-                    }
-                }
+                reportScore(tapTime: tapTime)
             }
         }
-        if firstTurn {
+        if firstTurn && !isGameOver {
             startTime = Date()
             timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         }
