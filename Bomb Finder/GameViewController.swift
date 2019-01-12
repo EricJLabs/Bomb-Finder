@@ -21,9 +21,30 @@ class GameViewController: UIViewController {
     var board: Board?
     var firstTurn = true
     var isGameOver = false
-    var timer: Timer?
+    var updateStopwatchTimer: Timer?
     var startTime: Date?
+    var previousTimeInterval: TimeInterval?
     var playerBestTime: TimeInterval?
+    var paused: Bool = false {
+        didSet {
+            guard !isGameOver else {
+                return
+            }
+            if paused {
+                updateStopwatchTimer?.invalidate()
+                previousTimeInterval = ellapsedTime
+            } else {
+                startTime = Date()
+                startUpdateStopwatchTimer()
+            }
+        }
+    }
+    var ellapsedTime: TimeInterval {
+        guard let startTime = startTime else {
+            return 0.0
+        }
+        return Date().timeIntervalSince(startTime) + (previousTimeInterval ?? 0.0)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,14 +71,8 @@ class GameViewController: UIViewController {
             self?.playerBestTime = bestTime
             self?.reportPlayerBestTime()
         }
-    }
-    
-    private func reportPlayerBestTime() {
-        guard let playerBestTime = playerBestTime else {
-            return
-        }
-        bestTImeStack.isHidden = false
-        bestTimeLabel.text = ellapsedTimeString(ellapsedTime: playerBestTime, showHundredths: true)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -68,8 +83,8 @@ class GameViewController: UIViewController {
     
     func revealBoard() {
         showTime(showMillisconds: true)
-        timer?.invalidate()
-        timer = nil
+        updateStopwatchTimer?.invalidate()
+        updateStopwatchTimer = nil
         board?.tiles.enumerated().forEach { (index, _) in reveal(at: index) }
         showPlagAgain()
     }
@@ -168,7 +183,6 @@ class GameViewController: UIViewController {
             return
         }
         
-        let ellapsedTime = Date().timeIntervalSince(startTime)
         timeLabel.text = ellapsedTimeString(ellapsedTime: ellapsedTime, showHundredths: showMillisconds)
     }
 
@@ -225,10 +239,7 @@ class GameViewController: UIViewController {
     }
     
     private func reportScore(tapTime: Date) {
-        guard let startTime = startTime else {
-            return
-        }
-        let newTime = tapTime.timeIntervalSince(startTime)
+        let newTime = ellapsedTime
         reportScoreToGameCenter(timeInterval: newTime)
         if playerBestTime == nil {
             playerBestTime = newTime
@@ -247,6 +258,27 @@ class GameViewController: UIViewController {
         }
         let score = Score(size: board.width, numberOfBombs: board.numberOfBombs, time: timeInterval)
         gameCenterHelper.post(score: score)
+    }
+    
+    @objc private func applicationWillResignActive(_ notification: NSNotification) {
+        paused = true
+    }
+    
+    @objc private func applicationDidBecomeActive(_ notification: NSNotification) {
+        paused = false
+    }
+    
+    private func reportPlayerBestTime() {
+        guard let playerBestTime = playerBestTime else {
+            return
+        }
+        bestTImeStack.isHidden = false
+        bestTimeLabel.text = ellapsedTimeString(ellapsedTime: playerBestTime, showHundredths: true)
+    }
+    
+    private func startUpdateStopwatchTimer() {
+        updateStopwatchTimer?.invalidate()
+        updateStopwatchTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
 }
 
@@ -311,7 +343,8 @@ extension GameViewController: UICollectionViewDelegate {
         }
         if firstTurn && !isGameOver {
             startTime = Date()
-            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+            previousTimeInterval = nil
+            startUpdateStopwatchTimer()
         }
         firstTurn = false
     }
