@@ -155,6 +155,7 @@ class GameViewController: UIViewController {
             let tile = board.tiles[indexPath.row]
             if !tile.shown {
                 cell.cycleFlagIcon(tile: tile)
+                longPressAnimation(for: cell)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
             }
         }
@@ -225,6 +226,20 @@ class GameViewController: UIViewController {
                 cell.layer.borderWidth = 1
                 cell.layer.borderColor = updateBorderColor.cgColor
             }
+        }
+    }
+
+    private func longPressAnimation(for cell: TileCollectionViewCell) {
+        let oldZPosition = cell.layer.zPosition
+        cell.layer.zPosition = 100
+        UIView.animate(withDuration: 0.3, animations: {
+            cell.layer.borderWidth = 1
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.transform =  CGAffineTransform.init(scaleX: 2.0, y: 2.0).concatenating(CGAffineTransform(translationX: 0, y: -60))
+        }) { _ in
+            cell.layer.borderWidth = 0
+            cell.transform = CGAffineTransform.identity
+            cell.layer.zPosition = oldZPosition
         }
     }
     
