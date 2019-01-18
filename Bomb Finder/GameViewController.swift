@@ -180,10 +180,6 @@ class GameViewController: UIViewController {
     }
     
     private func showTime(showMillisconds: Bool) {
-        guard let startTime = startTime else {
-            return
-        }
-        
         timeLabel.text = ellapsedTimeString(ellapsedTime: ellapsedTime, showHundredths: showMillisconds)
     }
 
