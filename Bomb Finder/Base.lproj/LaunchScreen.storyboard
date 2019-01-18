@@ -37,31 +37,19 @@
                                 </constraints>
                                 <viewLayoutGuide key="safeArea" id="W04-lp-c1X"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0mh-I8-vIC" userLabel="Title View">
-                                <rect key="frame" x="0.0" y="42" width="320" height="100"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bomb Finder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KP1-p9-SrM">
-                                        <rect key="frame" x="78" y="32" width="164" height="36"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="OzR-RE-SZo"/>
-                                    <constraint firstItem="KP1-p9-SrM" firstAttribute="centerY" secondItem="0mh-I8-vIC" secondAttribute="centerY" id="uSZ-sZ-zRl"/>
-                                    <constraint firstItem="KP1-p9-SrM" firstAttribute="centerX" secondItem="0mh-I8-vIC" secondAttribute="centerX" id="zCo-pS-hUM"/>
-                                </constraints>
-                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bomb Finder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KP1-p9-SrM">
+                                <rect key="frame" x="78" y="94" width="164" height="36"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="0mh-I8-vIC" firstAttribute="bottom" secondItem="5w9-PX-U6t" secondAttribute="top" id="Bzt-gT-fVq"/>
+                            <constraint firstItem="5w9-PX-U6t" firstAttribute="top" secondItem="KP1-p9-SrM" secondAttribute="bottom" constant="12" id="GJC-G9-xw9"/>
                             <constraint firstItem="5w9-PX-U6t" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KJB-TE-Kjd"/>
                             <constraint firstItem="5w9-PX-U6t" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.8" id="XYl-Wv-oof"/>
-                            <constraint firstItem="0mh-I8-vIC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="rHe-IA-0TV"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0mh-I8-vIC" secondAttribute="trailing" id="ryN-7I-ecc"/>
+                            <constraint firstItem="KP1-p9-SrM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="oLA-5F-QE3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

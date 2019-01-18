@@ -111,39 +111,27 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gvV-Fa-cqJ" userLabel="Title View">
-                                <rect key="frame" x="0.0" y="45.5" width="320" height="100"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bomb Finder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kPI-pS-LnZ">
-                                        <rect key="frame" x="78" y="32" width="164" height="36"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="kPI-pS-LnZ" firstAttribute="centerY" secondItem="gvV-Fa-cqJ" secondAttribute="centerY" id="WaV-Lp-Ulh"/>
-                                    <constraint firstAttribute="height" constant="100" id="dwy-zZ-ir3"/>
-                                    <constraint firstItem="kPI-pS-LnZ" firstAttribute="centerX" secondItem="gvV-Fa-cqJ" secondAttribute="centerX" id="iPN-ys-cjP"/>
-                                </constraints>
-                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bomb Finder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kPI-pS-LnZ">
+                                <rect key="frame" x="78" y="94" width="164" height="36"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hQn-5S-gwQ" secondAttribute="bottom" constant="16" id="67N-HQ-Iuu"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gvV-Fa-cqJ" secondAttribute="trailing" id="6Tw-RX-fGO"/>
                             <constraint firstItem="M8h-Oa-9Ot" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.8" id="6fJ-4W-Vfv"/>
                             <constraint firstItem="LEX-Ac-oVy" firstAttribute="top" secondItem="VPb-7C-oLj" secondAttribute="bottom" id="6zA-6d-7r5"/>
-                            <constraint firstItem="gvV-Fa-cqJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="G03-T6-6Gn"/>
                             <constraint firstItem="hQn-5S-gwQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="NHx-sL-whB"/>
                             <constraint firstItem="VPb-7C-oLj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OUw-0x-2Vp"/>
                             <constraint firstAttribute="trailing" secondItem="LEX-Ac-oVy" secondAttribute="trailing" constant="16" id="SYw-wh-kvA"/>
                             <constraint firstItem="hQn-5S-gwQ" firstAttribute="top" secondItem="LEX-Ac-oVy" secondAttribute="bottom" constant="16" id="Yam-fX-fir"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hQn-5S-gwQ" secondAttribute="trailing" constant="16" id="bfC-Jt-pTE"/>
+                            <constraint firstItem="kPI-pS-LnZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="esH-gh-qsV"/>
                             <constraint firstAttribute="trailing" secondItem="VPb-7C-oLj" secondAttribute="trailing" id="fzQ-df-swE"/>
+                            <constraint firstItem="M8h-Oa-9Ot" firstAttribute="top" secondItem="kPI-pS-LnZ" secondAttribute="bottom" constant="12" id="ntp-mt-xsc"/>
                             <constraint firstItem="LEX-Ac-oVy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="qLr-NE-rL1"/>
-                            <constraint firstItem="gvV-Fa-cqJ" firstAttribute="bottom" secondItem="Hoe-es-BUF" secondAttribute="top" id="r0O-3h-Cxg"/>
                             <constraint firstItem="M8h-Oa-9Ot" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vA0-vi-dyz"/>
                             <constraint firstItem="VPb-7C-oLj" firstAttribute="top" secondItem="M8h-Oa-9Ot" secondAttribute="bottom" id="zQG-z4-AoS"/>
                         </constraints>
@@ -325,7 +313,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="G1a-g2-Mqo" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="psc-3f-yFn">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
