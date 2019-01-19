@@ -13,7 +13,6 @@ class GameViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var gameOverLabel: UILabel!
-    @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var bestTimeLabel: UILabel!
     @IBOutlet weak var bestTImeStack: UIStackView!
     
@@ -241,12 +240,12 @@ class GameViewController: UIViewController {
     
     private func hideGameOver() {
         gameOverLabel.isHidden = true
-        timeView.backgroundColor = .white
+        gameOverLabel.text = ""
     }
     
     private func gameOver(win: Bool) {
-        gameOverLabel.isHidden = false
         gameOverLabel.text = win ? "😎" : "😡"
+        gameOverLabel.isHidden = false
     }
     
     private func reportScore(tapTime: Date) {
