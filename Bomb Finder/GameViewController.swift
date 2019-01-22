@@ -381,7 +381,19 @@ class TileCollectionViewCell: UICollectionViewCell {
         layer.borderWidth = 0
         layer.borderColor = UIColor.white.cgColor
         
-        let fontSize = bounds.width <= 26 ? 18 : 26
+        let fontSize: Int
+        switch bounds.width {
+        case 0...14:
+            fontSize = 9
+        case 15...16:
+            fontSize = 11
+        case 17...20:
+            fontSize = 14
+        case 21...26:
+            fontSize = 18
+        default:
+            fontSize = 26
+        }
         flagLabel.font = flagLabel.font.withSize(CGFloat(fontSize))
         valueLabel.font = valueLabel.font.withSize(CGFloat(fontSize))
     }
