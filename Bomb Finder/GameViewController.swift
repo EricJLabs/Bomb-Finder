@@ -84,13 +84,16 @@ class GameViewController: UIViewController {
         showTime(showMillisconds: true)
         updateStopwatchTimer?.invalidate()
         updateStopwatchTimer = nil
-        board?.tiles.enumerated().forEach { (index, _) in reveal(at: index) }
+        board?.tiles.enumerated().forEach { (index, _) in reveal(at: index, backgroundColor: UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)) }
         showPlagAgain()
     }
     
-    func reveal(at index: Int) {
+    func reveal(at index: Int, backgroundColor: UIColor? = nil) {
         guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TileCollectionViewCell else {
             return
+        }
+        if !cell.coverView.isHidden, let backgroundColor = backgroundColor  {
+            cell.backgroundColor = backgroundColor
         }
         cell.coverView.isHidden = true
         cell.flagLabel.isHidden = true
@@ -394,6 +397,12 @@ class TileCollectionViewCell: UICollectionViewCell {
         }
         flagLabel.isHidden = tile.flagIcon == .none
         flagLabel.text = tile.flagIcon.icon
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        backgroundColor = .white
     }
 }
 
