@@ -44,6 +44,7 @@ class GameViewController: UIViewController {
         }
         return Date().timeIntervalSince(startTime) + (previousTimeInterval ?? 0.0)
     }
+    private weak var flagCountBarButtonItem: UIBarButtonItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,8 @@ class GameViewController: UIViewController {
             self?.playerBestTime = bestTime
             self?.reportPlayerBestTime()
         }
+        addFlagCountBarButtonItem()
+        updateFlagCount()
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -138,8 +141,10 @@ class GameViewController: UIViewController {
         isGameOver = false
         firstTurn = true
         timeLabel.text = "0"
-        navigationItem.rightBarButtonItem = nil
+        navigationItem.rightBarButtonItem = flagCountBarButtonItem
         hideGameOver()
+        addFlagCountBarButtonItem()
+        updateFlagCount()
         self.board = Board.create(size: board.width, numberOfBombs: board.numberOfBombs)
         collectionView.reloadData()
     }
@@ -159,8 +164,27 @@ class GameViewController: UIViewController {
                 cell.cycleFlagIcon(tile: tile)
                 longPressAnimation(for: cell)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
+                updateFlagCount()
             }
         }
+    }
+    
+    private func addFlagCountBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        flagCountBarButtonItem = navigationItem.rightBarButtonItem
+
+        flagCountBarButtonItem?.isEnabled = false
+        flagCountBarButtonItem?.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .disabled)
+    }
+    
+    private func updateFlagCount() {
+        let numFlags = board?.tiles.reduce(0, { (totalFlags: Int, tile) in
+            if tile.shown || tile.flagIcon != .flag {
+                return totalFlags
+            }
+            return totalFlags + 1
+        }) ?? 0
+        flagCountBarButtonItem?.title = numFlags == 0 ? "" : "\(numFlags) 🏴‍☠️"
     }
     
     func resetBoard(indexPath: IndexPath) {
