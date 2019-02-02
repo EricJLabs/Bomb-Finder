@@ -1,7 +1,8 @@
 # Minesweeper type game
 
-now in the app store:  https://itunes.apple.com/us/app/bomb-finder/id1448042507#
-install:  https://testflight.apple.com/join/CivDVWl7
+release now in the app store:  https://itunes.apple.com/us/app/bomb-finder/id1448042507
+
+beta:  https://testflight.apple.com/join/CivDVWl7
 
 Challenge to think more functional using map, filter, and reduce.  Avoiding using loops and writing a matrix style game minesweeper.
 
