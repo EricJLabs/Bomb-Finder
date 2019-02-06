@@ -73,7 +73,9 @@ class GameViewController: UIViewController {
         let format = NSLocalizedString("com.ericjlabs.bombfinder.title", value: "%d Bombs", comment: "format number of bombs - 8 bombs")
         title = String(format: format, board?.numberOfBombs ?? 8)
         collectionView?.collectionViewLayout = columnLayout
-        collectionView?.contentInsetAdjustmentBehavior = .always
+        if #available(iOS 11.0, *) {
+            collectionView?.contentInsetAdjustmentBehavior = .always
+        }
         
         guard let board = board else {
             return
@@ -177,7 +179,9 @@ class GameViewController: UIViewController {
             if !tile.shown {
                 cell.cycleFlagIcon(tile: tile)
                 longPressAnimation(for: cell)
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                if #available(iOS 10.0, *) {
+                    UINotificationFeedbackGenerator().notificationOccurred(.success)
+                }
                 updateFlagCount()
             }
         }
@@ -374,7 +378,9 @@ extension GameViewController: UICollectionViewDelegate {
                 resetBoard(indexPath: indexPath)
                 return
             }
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            if #available(iOS 10.0, *) {
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+            } 
             reveal(at: indexPath.row)
             explodeCellAnimation(at: indexPath.row, updateText: "💥", updateBorderColor: .red)
             gameOver(win: false)
@@ -481,7 +487,19 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
             return
         }
         
-        let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+        let leftSafeArea: CGFloat
+        if #available(iOS 11.0, *) {
+            leftSafeArea = collectionView.safeAreaInsets.left
+        } else {
+            leftSafeArea = 0
+        }
+        let rightSafeArea: CGFloat
+        if #available(iOS 11.0, *) {
+            rightSafeArea = collectionView.safeAreaInsets.right
+        } else {
+            rightSafeArea = 0
+        }
+        let marginsAndInsets = sectionInset.left + sectionInset.right + leftSafeArea + rightSafeArea + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
         let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         itemSize = CGSize(width: itemWidth, height: itemWidth)
     }
