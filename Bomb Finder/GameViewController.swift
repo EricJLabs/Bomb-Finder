@@ -488,15 +488,12 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
         }
         
         let leftSafeArea: CGFloat
-        if #available(iOS 11.0, *) {
-            leftSafeArea = collectionView.safeAreaInsets.left
-        } else {
-            leftSafeArea = 0
-        }
         let rightSafeArea: CGFloat
         if #available(iOS 11.0, *) {
+            leftSafeArea = collectionView.safeAreaInsets.left
             rightSafeArea = collectionView.safeAreaInsets.right
         } else {
+            leftSafeArea = 0
             rightSafeArea = 0
         }
         let marginsAndInsets = sectionInset.left + sectionInset.right + leftSafeArea + rightSafeArea + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
